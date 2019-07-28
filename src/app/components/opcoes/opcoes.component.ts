@@ -21,7 +21,7 @@ export class OpcoesComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.opcoes = this.opcoesService.opcoes;
-    console.log(this.opcoes)
+    console.log(this.opcoes);
   }
 
 
