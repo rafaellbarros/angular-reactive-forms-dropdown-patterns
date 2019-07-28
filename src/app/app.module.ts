@@ -6,14 +6,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 
 import { AppComponent } from './app.component';
-import { OpcoesComponent } from './components/opcoes/opcoes.component';
-
-
+import { OpcoesComponent } from './components/opcoes';
+import { AlterarNomeComponent } from './components/opcoes/alterar-nome';
+import { AlterarContatoComponent } from './components/opcoes/alterar-contato';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OpcoesComponent
+    OpcoesComponent,
+    AlterarNomeComponent,
+    AlterarContatoComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +24,7 @@ import { OpcoesComponent } from './components/opcoes/opcoes.component';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
