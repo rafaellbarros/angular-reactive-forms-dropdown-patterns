@@ -1,0 +1,12 @@
+<div *ngIf="opcoesForm && formInitialize">
+  <div class="row">
+      <div  [formGroup]="opcoesForm" class="col-md-12">
+          <div class="form-group">
+              <p-dropdown [options]="opcoes" formControlName="opcao"></p-dropdown>
+          </div>
+      </div>
+  </div>
+</div>
+<pre>
+  {{ opcoesForm.value | json }}
+</pre>
