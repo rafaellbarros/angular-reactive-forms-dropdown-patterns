@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Form } from '@angular/forms';
 import { OpcoesService } from './opcoes.service';
-import { Opcao } from '../models/opcoes.model';
+import { Opcao, AlterarNome, AlterarContato } from '../models/opcoes.model';
 import { Constants } from 'src/app/shared/constants';
 import { AfterViewInit } from '@angular/core';
 import { Renderer2 } from '@angular/core';
@@ -19,14 +19,25 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
 
   opcoesForm: FormGroup;
   formInitialize = false;
-
   opcoes: Opcao[];
+
+  // ALTERAR NOME
+  alterarNomeForm: FormGroup;
+  alterarNome: AlterarNome;
+
+  // ALTERAR TELEFONE
+  alterarContatoForm: FormGroup;
+  alterarContato: AlterarContato;
 
   constructor(private fb: FormBuilder, private opcoesService: OpcoesService, private el: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.initForm();
     this.opcoes = this.opcoesService.opcoes;
+    this.initForm();
+    this.alterarNome = this.novoAlterarNomeForm();
+    this.alterarContato = this.novoAlterarContatoForm();
+    this.initAlterarNomeForm();
+    this.initAlterarContatoForm();
   }
 
   ngAfterViewInit(): void {
@@ -66,8 +77,6 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
     this.renderer.setStyle(element, 'display', 'block');
   }
 
-
-  // TODO: Implemntar formulários no opcao e depois criar classes de implementação
   private initForm(): void {
     this.opcoesForm = this.fb.group({
       opcao: ['']
@@ -75,17 +84,10 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
     this.formInitialize = true;
   }
 
-  onChangeOpcoes(event) {
-  // TODO: Implementar cabeçahos de acordo com opção selecionada
-    const value = event.value;
-    if (value !== null) {
-      if (value.id === this.ID_ALTERAR_NOME) {
-
-      } else if (value.id === this.ID_ALTERAR_CONTATO) {
-
-      }
+  addFormControl(nome: string, formGroup: FormGroup) {
+    if (formGroup) {
+      this.opcoesForm.addControl(nome, formGroup);
     }
-
   }
 
   get opcaoSelecionada() {
@@ -95,5 +97,46 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   getOpcoesForm(): FormGroup {
     return this.opcoesForm;
   }
+
+  // ALTERAR NOME
+
+  public addAlterarNomeForm(): FormGroup {
+    this.addFormControl('alterarNome', this.alterarNomeForm);
+    return this.alterarNomeForm;
+  }
+
+  private initAlterarNomeForm(): void {
+    this.alterarNomeForm = this.fb.group({
+      nome: [this.alterarNome.nome]
+    });
+  }
+
+  private novoAlterarNomeForm(): AlterarNome {
+    return {
+      nome: null
+    };
+  }
+
+  // FIM ALTERAR NOME
+
+  // ALTERAR CONTATO
+  public addAlterarContatoForm(): FormGroup {
+    this.addFormControl('alterarContato', this.alterarContatoForm);
+    return this.alterarContatoForm;
+  }
+
+  private initAlterarContatoForm(): void {
+    this.alterarContatoForm = this.fb.group({
+      telefone: [this.alterarContato.telefone]
+    });
+  }
+
+  private novoAlterarContatoForm(): AlterarContato {
+    return {
+      telefone: null
+    };
+  }
+
+  // FIM ALTERAR CONTATO
 
 }

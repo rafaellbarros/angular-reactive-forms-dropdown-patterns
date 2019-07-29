@@ -19,10 +19,10 @@
           <div class="form-group">
             <div [ngSwitch]="opcaoSelecionada">
               <ng-template [ngSwitchCase]="ID_ALTERAR_NOME">
-                <alterar-nome></alterar-nome>
+                  <alterar-nome [alterarNomeForm]="addAlterarNomeForm()"></alterar-nome>
               </ng-template>
               <ng-template [ngSwitchCase]="ID_ALTERAR_CONTATO">
-                <alterar-contato></alterar-contato>
+                <alterar-contato [alterarContatoForm]="addAlterarContatoForm()"></alterar-contato>
               </ng-template>
             </div>
           </div>
