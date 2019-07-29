@@ -100,11 +100,6 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
 
   // ALTERAR NOME
 
-  public addAlterarNomeForm(): FormGroup {
-    this.addFormControl('alterarNome', this.alterarNomeForm);
-    return this.alterarNomeForm;
-  }
-
   private initAlterarNomeForm(): void {
     this.alterarNomeForm = this.fb.group({
       nome: [this.alterarNome.nome]

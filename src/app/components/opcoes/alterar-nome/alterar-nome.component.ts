@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -11,8 +11,13 @@ export class AlterarNomeComponent implements OnInit {
   @Input()
   alterarNomeForm: FormGroup;
 
+  @Output()
+  formReady = new EventEmitter<FormGroup>();
+
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.formReady.emit(this.alterarNomeForm);
+  }
 
 }
