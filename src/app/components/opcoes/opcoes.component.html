@@ -2,11 +2,21 @@
   <div class="row">
       <div  [formGroup]="opcoesForm" class="col-md-12">
           <div class="form-group">
-              <p-dropdown [options]="opcoes" formControlName="opcao"></p-dropdown>
+              <p-dropdown [options]="opcoes" formControlName="opcao" (onChange)="onChangeOpcoes($event)"></p-dropdown>
+          </div>
+          <div class="form-group">
+            <div [ngSwitch]="opcaoSelecionada">
+              <ng-template [ngSwitchCase]="ID_ALTERAR_NOME">
+                <alterar-nome></alterar-nome>
+              </ng-template>
+              <ng-template [ngSwitchCase]="ID_ALTERAR_CONTATO">
+                <alterar-contato></alterar-contato>
+              </ng-template>
+            </div>
           </div>
       </div>
   </div>
 </div>
-<pre>
+<pre class="text-success">
   {{ opcoesForm.value | json }}
 </pre>
