@@ -1,1 +1,7 @@
-<p>alterar-contato works!</p>
+<div *ngIf="alterarContatoForm">
+    <div class="form-group" [formGroup]="alterarContatoForm">
+      <label class="form-control-label" for="nome">Telefone:</label>
+        <input id="telefone" name="telefone" class="form-control" formControlName="telefone">
+    </div>
+  </div>  
+  
