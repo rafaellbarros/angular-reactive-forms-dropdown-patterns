@@ -1,1 +1,6 @@
-<p>alterar-nome works!</p>
+<div *ngIf="alterarNomeForm">
+  <div class="form-group" [formGroup]="alterarNomeForm">
+    <label class="form-control-label" for="nome">Nome:</label>
+      <input id="nome" name="nome" class="form-control" formControlName="nome">
+  </div>
+</div>  
