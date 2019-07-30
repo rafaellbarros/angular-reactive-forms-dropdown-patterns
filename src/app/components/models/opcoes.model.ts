@@ -3,6 +3,11 @@ export interface Opcao {
   value: any;
 }
 
+export interface OpcaoDto {
+  id: number;
+  descricao: string;
+}
+
 export interface AlterarNome {
   nome: string;
 }
@@ -10,3 +15,16 @@ export interface AlterarNome {
 export interface AlterarContato {
   telefone: string;
 }
+
+export interface Dados {
+  opcao: OpcaoDto;
+  alterarNome?: AlterarNome;
+  alterarContato?: AlterarContato;
+}
+
+export interface Solicitacao {
+  id: number;
+  dados: Dados;
+}
+
+

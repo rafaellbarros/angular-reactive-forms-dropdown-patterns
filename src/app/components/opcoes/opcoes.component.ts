@@ -1,10 +1,11 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Form } from '@angular/forms';
 import { OpcoesService } from './opcoes.service';
-import { Opcao, AlterarNome, AlterarContato } from '../models/opcoes.model';
+import { Opcao, AlterarNome, AlterarContato, Solicitacao, OpcaoDto } from '../models/opcoes.model';
 import { Constants } from 'src/app/shared/constants';
 import { AfterViewInit } from '@angular/core';
 import { Renderer2 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -20,22 +21,36 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   opcoesForm: FormGroup;
   formInitialize = false;
   opcoes: Opcao[];
+  solicitacao: any;
+  dados: Solicitacao;
 
   // ALTERAR NOME
   alterarNomeForm: FormGroup;
-  alterarNome: AlterarNome;
+  // alterarNome: AlterarNome;
 
   // ALTERAR TELEFONE
   alterarContatoForm: FormGroup;
   alterarContato: AlterarContato;
 
-  constructor(private fb: FormBuilder, private opcoesService: OpcoesService, private el: ElementRef, private renderer: Renderer2) { }
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private opcoesService: OpcoesService,
+    private el: ElementRef,
+    private renderer: Renderer2) { }
 
   ngOnInit() {
     this.opcoes = this.opcoesService.opcoes;
+    const id = this.route.snapshot.params['id'];
+    this.solicitacao = this.opcoesService.getSolicitacaoById(id);
+
+    if (this.solicitacao.length > 0) {
+      this.dados = JSON.parse(JSON.stringify(this.solicitacao[0]));
+    } else {
+      this.dados = this.getDadosVazio();
+    }
+
     this.initForm();
-    this.alterarNome = this.novoAlterarNomeForm();
-    this.alterarContato = this.novoAlterarContatoForm();
     this.initAlterarNomeForm();
     this.initAlterarContatoForm();
   }
@@ -78,10 +93,26 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   }
 
   private initForm(): void {
+    const dados: OpcaoDto = this.recuperarDadosOpcoes();
     this.opcoesForm = this.fb.group({
-      opcao: ['']
+      opcao: [dados]
     });
     this.formInitialize = true;
+    this.opcoesForm.updateValueAndValidity();
+  }
+
+  private recuperarDadosOpcoes(): OpcaoDto {
+    const opcao: OpcaoDto = {
+      id: null,
+      descricao: null,
+    };
+
+    if (this.solicitacao.length === 0) {
+      return opcao as OpcaoDto;
+    } else {
+      return this.dados.dados.opcao;
+    }
+
   }
 
   addFormControl(nome: string, formGroup: FormGroup) {
@@ -98,18 +129,42 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
     return this.opcoesForm;
   }
 
+  private getDadosVazio() {
+    return {
+      id: null,
+      dados: {
+        opcao: {
+          id: null,
+          descricao: null,
+        },
+        alterarNome: {
+          nome: null
+        },
+        alterarContato: {
+          telefone: null
+        }
+      }
+    };
+  }
+
   // ALTERAR NOME
 
   private initAlterarNomeForm(): void {
+    const dados: AlterarNome = this.recuperarDadoAlterarNome();
     this.alterarNomeForm = this.fb.group({
-      nome: [this.alterarNome.nome]
+      nome: [dados.nome]
     });
   }
 
-  private novoAlterarNomeForm(): AlterarNome {
-    return {
-      nome: null
+  private recuperarDadoAlterarNome(): AlterarNome {
+    const alterarNome: AlterarNome = {
+      nome: ''
     };
+    if (this.dados.dados.alterarNome === undefined || this.dados.dados.alterarNome.nome === null) {
+      return alterarNome as AlterarNome;
+    } else if (this.dados.dados.opcao.id === 1) {
+      return this.dados.dados.alterarNome;
+    }
   }
 
   // FIM ALTERAR NOME
@@ -121,15 +176,22 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   }
 
   private initAlterarContatoForm(): void {
+    const dados: AlterarContato = this.recuperarDadoAlterarContato();
     this.alterarContatoForm = this.fb.group({
-      telefone: [this.alterarContato.telefone]
+      telefone: [dados.telefone]
     });
   }
 
-  private novoAlterarContatoForm(): AlterarContato {
-    return {
-      telefone: null
+
+  private recuperarDadoAlterarContato(): AlterarContato {
+    const alterarContato:AlterarContato = {
+      telefone: ''
     };
+    if (this.dados.dados.alterarContato === undefined || this.dados.dados.alterarContato.telefone === null) {
+      return alterarContato as AlterarContato;
+    } else if (this.dados.dados.opcao.id === 2) {
+      return this.dados.dados.alterarContato;
+    }
   }
 
   // FIM ALTERAR CONTATO

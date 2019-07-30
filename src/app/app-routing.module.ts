@@ -5,6 +5,7 @@ import { OpcoesComponent } from './components/opcoes';
 
 const routes: Routes = [
   { path: '', component: OpcoesComponent },
+  { path: 'opcao/:id', component: OpcoesComponent },
   // { path: '**', component: PageNotFoundComponent },
 ];
 
