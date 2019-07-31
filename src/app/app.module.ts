@@ -4,12 +4,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropdownModule } from 'primeng/dropdown';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { OpcoesComponent } from './components/opcoes';
 import { AlterarNomeComponent } from './components/opcoes/alterar-nome';
 import { AlterarContatoComponent } from './components/opcoes/alterar-contato';
 import { AppRoutingModule } from './app-routing.module';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
+    NgxMaskModule.forRoot(options),
     AppRoutingModule
   ],
   providers: [],

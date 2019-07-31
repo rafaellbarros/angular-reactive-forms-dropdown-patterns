@@ -1,7 +1,15 @@
 <div *ngIf="alterarContatoForm">
-    <div class="form-group" [formGroup]="alterarContatoForm">
-      <label class="form-control-label" for="nome">Telefone:</label>
-        <input id="telefone" name="telefone" class="form-control" formControlName="telefone">
+    <div [formGroup]="alterarContatoForm">
+      <div class="form-group" >
+        <label class="form-control-label" for="nome">Telefone:</label>
+        <input id="telefone" name="telefone" class="form-control" formControlName="telefone"
+        [dropSpecialCharacters]="false"
+        [showMaskTyped] = "true"
+        mask="00000-0000">
+      </div>
+      <div class="form-group" >
+        <label class="form-control-label" for="nome">Email:</label>
+        <input id="email" name="email" class="form-control" formControlName="email">
+      </div>
     </div>
-  </div>  
-  
+  </div>

@@ -14,6 +14,7 @@ export interface AlterarNome {
 
 export interface AlterarContato {
   telefone: string;
+  email: string;
 }
 
 export interface Dados {

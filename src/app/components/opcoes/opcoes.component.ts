@@ -141,7 +141,8 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
           nome: null
         },
         alterarContato: {
-          telefone: null
+          telefone: null,
+          email: null
         }
       }
     };
@@ -160,6 +161,7 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
     const alterarNome: AlterarNome = {
       nome: ''
     };
+
     if (this.dados.dados.alterarNome === undefined || this.dados.dados.alterarNome.nome === null) {
       return alterarNome as AlterarNome;
     } else if (this.dados.dados.opcao.id === 1) {
@@ -178,15 +180,20 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   private initAlterarContatoForm(): void {
     const dados: AlterarContato = this.recuperarDadoAlterarContato();
     this.alterarContatoForm = this.fb.group({
-      telefone: [dados.telefone]
+      telefone: [dados.telefone],
+      email: [dados.email]
     });
   }
 
 
   private recuperarDadoAlterarContato(): AlterarContato {
-    const alterarContato:AlterarContato = {
-      telefone: ''
+    const alterarContato: AlterarContato = {
+      telefone: '',
+      email: '',
     };
+
+    console.log(this.dados.dados)
+
     if (this.dados.dados.alterarContato === undefined || this.dados.dados.alterarContato.telefone === null) {
       return alterarContato as AlterarContato;
     } else if (this.dados.dados.opcao.id === 2) {

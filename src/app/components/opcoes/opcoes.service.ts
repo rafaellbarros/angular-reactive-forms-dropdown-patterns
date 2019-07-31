@@ -47,7 +47,8 @@ export class OpcoesService {
             descricao: 'Alterar Contato'
           },
           alterarContato: {
-            telefone: '91337385'
+            telefone: '91337385',
+            email: 'rafaelbarros.df@gmail.com'
           }
         }
       }
