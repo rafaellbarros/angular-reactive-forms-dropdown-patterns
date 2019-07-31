@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Form } from '@angular/forms';
+import { FormGroup, FormBuilder, Form, Validators, FormControl } from '@angular/forms';
 import { OpcoesService } from './opcoes.service';
 import { Opcao, AlterarNome, AlterarContato, Solicitacao, OpcaoDto } from '../models/opcoes.model';
 import { Constants } from 'src/app/shared/constants';
@@ -179,10 +179,26 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
 
   private initAlterarContatoForm(): void {
     const dados: AlterarContato = this.recuperarDadoAlterarContato();
+    const emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
     this.alterarContatoForm = this.fb.group({
       telefone: [dados.telefone],
-      email: [dados.email]
+      email: [dados.email, [ Validators.required, Validators.pattern(emailPattern),  this.emailDomainValidator]]
     });
+  }
+
+   emailDomainValidator(control: FormControl) {
+    const email = control.value;
+    if (email && email.indexOf('@') !== -1) {
+      const [_, domain] = email.split('@');
+      if (domain === 'gmail.com') {
+        return {
+          emailDomain: {
+            parsedDomain: domain
+          }
+        }
+      }
+    }
+    return null;
   }
 
 

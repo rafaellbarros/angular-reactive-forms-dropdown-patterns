@@ -2,14 +2,19 @@
     <div [formGroup]="alterarContatoForm">
       <div class="form-group" >
         <label class="form-control-label" for="nome">Telefone:</label>
-        <input id="telefone" name="telefone" class="form-control" formControlName="telefone"
+        <input type="text" id="telefone" name="telefone" class="form-control" formControlName="telefone"
         [dropSpecialCharacters]="false"
         [showMaskTyped] = "true"
         mask="00000-0000">
       </div>
-      <div class="form-group" >
+      <div class="form-group">
         <label class="form-control-label" for="nome">Email:</label>
-        <input id="email" name="email" class="form-control" formControlName="email">
+        <input type="email"  id="email" name="email" class="form-control" formControlName="email">
+        <div class="form-control-feedback" *ngIf="emailControl.errors && (emailControl.dirty || emailControl.touched)">
+          <p class="invalid-xpto" *ngIf="emailControl.errors.required">Email é obrigátorio</p>
+          <p class="invalid-xpto" *ngIf="emailControl.errors.pattern">Email inválido.</p>
+          <p class="invalid-xpto" *ngIf="emailControl.errors.emailDomain">Email não deve conter o domínio gmail.com</p>
+        </div>
       </div>
     </div>
   </div>

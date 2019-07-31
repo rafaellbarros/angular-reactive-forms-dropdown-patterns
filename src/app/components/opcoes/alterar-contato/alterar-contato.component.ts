@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'alterar-contato',
@@ -14,6 +14,10 @@ export class AlterarContatoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  get emailControl(): AbstractControl {
+    return  this.alterarContatoForm.controls['email'] as AbstractControl;
   }
 
 }
