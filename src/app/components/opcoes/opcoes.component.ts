@@ -172,10 +172,6 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   // FIM ALTERAR NOME
 
   // ALTERAR CONTATO
-  public addAlterarContatoForm(): FormGroup {
-    this.addFormControl('alterarContato', this.alterarContatoForm);
-    return this.alterarContatoForm;
-  }
 
   private initAlterarContatoForm(): void {
     const dados: AlterarContato = this.recuperarDadoAlterarContato();
@@ -186,7 +182,7 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
     });
   }
 
-   emailDomainValidator(control: FormControl) {
+  private emailDomainValidator(control: FormControl) {
     const email = control.value;
     if (email && email.indexOf('@') !== -1) {
       const [_, domain] = email.split('@');
@@ -207,8 +203,6 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
       telefone: '',
       email: '',
     };
-
-    console.log(this.dados.dados)
 
     if (this.dados.dados.alterarContato === undefined || this.dados.dados.alterarContato.telefone === null) {
       return alterarContato as AlterarContato;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -11,9 +11,13 @@ export class AlterarContatoComponent implements OnInit {
   @Input()
   alterarContatoForm: FormGroup;
 
+  @Output()
+  formReady = new EventEmitter<FormGroup>();
+
   constructor() { }
 
   ngOnInit() {
+
   }
 
   get emailControl(): AbstractControl {

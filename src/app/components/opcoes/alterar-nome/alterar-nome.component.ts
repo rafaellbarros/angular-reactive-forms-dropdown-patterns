@@ -17,6 +17,8 @@ export class AlterarNomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+
     this.formReady.emit(this.alterarNomeForm);
   }
 
