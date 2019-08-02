@@ -17,7 +17,7 @@ export class AlterarContatoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    this.formReady.emit(this.alterarContatoForm);
   }
 
   get emailControl(): AbstractControl {

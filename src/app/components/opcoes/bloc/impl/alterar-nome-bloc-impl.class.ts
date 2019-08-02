@@ -7,13 +7,8 @@ import { OnInit } from '@angular/core';
 export class AlterarNomeBlocImpl implements AlterarNomeBlocInterface, OnInit {
 
   private _alterarNomeForm: FormGroup;
-  private _dados: Solicitacao;
-  private _fb: FormBuilder;
 
-  constructor(private dados: Solicitacao, private fb: FormBuilder) {
-    this._dados = dados;
-    this._fb = fb;
-  }
+  constructor(private _dados: Solicitacao, private _fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initAlterarNomeForm();

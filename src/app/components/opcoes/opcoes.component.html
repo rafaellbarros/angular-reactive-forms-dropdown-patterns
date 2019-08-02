@@ -10,7 +10,7 @@
                   <alterar-nome [alterarNomeForm]="getAlterarNomeForm()" (formReady)="addFormControl('alterarNome', $event)"></alterar-nome>
               </ng-template>
               <ng-template [ngSwitchCase]="ID_ALTERAR_CONTATO">
-                <alterar-contato [alterarContatoForm]="alterarContatoForm" (formReady)="addFormControl('alterarContato', $event)"></alterar-contato>
+                <alterar-contato [alterarContatoForm]=" getAlterarContatoForm()" (formReady)="addFormControl('alterarContato', $event)"></alterar-contato>
               </ng-template>
             </div>
           </div>
