@@ -4,8 +4,6 @@ import { FormGroup, FormBuilder, Form, Validators, FormControl } from '@angular/
 import { OpcoesService } from './opcoes.service';
 import { Opcao, AlterarContato, Solicitacao, OpcaoDto } from '../models/opcoes.model';
 import { Constants } from 'src/app/shared/constants';
-import { AfterViewInit } from '@angular/core';
-import { Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlterarNomeBlocInterface } from './bloc/alterar-nome-bloc.interface';
 
@@ -125,7 +123,7 @@ export class OpcoesComponent implements OnInit, AlterarNomeBlocInterface {
   /**
   * ALTERAR NOME
   */
-  getAlterarNomeForm(): FormGroup {
+   getAlterarNomeForm(): FormGroup {
     return this._alterarNomeBloc.getAlterarNomeForm();
   }
   /**

@@ -1,5 +1,4 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Solicitacao } from '../../models';
+import { FormGroup } from '@angular/forms';
 
 export interface AlterarNomeBlocInterface {
   getAlterarNomeForm(): FormGroup;
