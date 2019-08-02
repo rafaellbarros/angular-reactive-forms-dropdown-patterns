@@ -1,11 +1,13 @@
+import { AlterarNomeBlocImpl } from './bloc/impl/alterar-nome-bloc-impl.class';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Form, Validators, FormControl } from '@angular/forms';
 import { OpcoesService } from './opcoes.service';
-import { Opcao, AlterarNome, AlterarContato, Solicitacao, OpcaoDto } from '../models/opcoes.model';
+import { Opcao, AlterarContato, Solicitacao, OpcaoDto } from '../models/opcoes.model';
 import { Constants } from 'src/app/shared/constants';
 import { AfterViewInit } from '@angular/core';
 import { Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AlterarNomeBlocInterface } from './bloc/alterar-nome-bloc.interface';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './opcoes.component.html',
   styleUrls: ['./opcoes.component.css']
 })
-export class OpcoesComponent implements OnInit, AfterViewInit {
+export class OpcoesComponent implements OnInit, AlterarNomeBlocInterface {
 
   public readonly ID_ALTERAR_NOME = Constants.ID_ALTERAR_NOME;
   public readonly ID_ALTERAR_CONTATO = Constants.ID_ALTERAR_CONTATO;
@@ -22,10 +24,11 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   formInitialize = false;
   opcoes: Opcao[];
   solicitacao: any;
-  dados: Solicitacao;
+  private dados: Solicitacao;
 
   // ALTERAR NOME
-  alterarNomeForm: FormGroup;
+  private _alterarNomeBloc: AlterarNomeBlocInterface;
+
   // alterarNome: AlterarNome;
 
   // ALTERAR TELEFONE
@@ -35,64 +38,31 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private opcoesService: OpcoesService,
-    private el: ElementRef,
-    private renderer: Renderer2) { }
+    private opcoesService: OpcoesService) {
 
-  ngOnInit() {
-    this.opcoes = this.opcoesService.opcoes;
-    const id = this.route.snapshot.params['id'];
-    this.solicitacao = this.opcoesService.getSolicitacaoById(id);
-
-    if (this.solicitacao.length > 0) {
-      this.dados = JSON.parse(JSON.stringify(this.solicitacao[0]));
-    } else {
-      this.dados = this.getDadosVazio();
     }
 
-    this.initForm();
-    this.initAlterarNomeForm();
-    this.initAlterarContatoForm();
-  }
+    ngOnInit() {
+      this.opcoes = this.opcoesService.opcoes;
+      const id = this.route.snapshot.params['id'];
+      this.solicitacao = this.opcoesService.getSolicitacaoById(id);
 
-  ngAfterViewInit(): void {
-
-    const html = this.el.nativeElement as HTMLElement;
-    const cards = html.getElementsByClassName('card');
-    const cardAlterarNome = cards.item(0);
-    const cardAlterarContato = cards.item(1);
-
-    this.hiddenElement(cardAlterarNome);
-    this.hiddenElement(cardAlterarContato);
-
-    this.getOpcoesForm().get('opcao').valueChanges.subscribe(data => {
-      if (data !== null) {
-        if (data.id === this.ID_ALTERAR_NOME) {
-          this.showElement(cardAlterarNome);
-          this.hiddenElement(cardAlterarContato);
-        } else if (data.id === this.ID_ALTERAR_CONTATO) {
-          this.showElement(cardAlterarContato);
-          this.hiddenElement(cardAlterarNome);
-        } else {
-          this.hiddenElement(cardAlterarNome);
-          this.hiddenElement(cardAlterarContato);
-        }
+      if (this.solicitacao.length > 0) {
+        this.dados = JSON.parse(JSON.stringify(this.solicitacao[0]));
       } else {
-        this.hiddenElement(cardAlterarNome);
-        this.hiddenElement(cardAlterarContato);
+        this.dados = this.getDadosVazio();
       }
-    });
+
+      this.initOpcoesForm();
+      this._alterarNomeBloc = new AlterarNomeBlocImpl(this.dados, this.fb);
+      this._alterarNomeBloc.ngOnInit();
+      this.initAlterarContatoForm();
   }
 
-  private hiddenElement(element: Element): void {
-    this.renderer.setStyle(element, 'display', 'none');
-  }
-
-  private showElement(element: Element): void {
-    this.renderer.setStyle(element, 'display', 'block');
-  }
-
-  private initForm(): void {
+  /**
+  * OPCOES
+  */
+  private initOpcoesForm(): void {
     const dados: OpcaoDto = this.recuperarDadosOpcoes();
     this.opcoesForm = this.fb.group({
       opcao: [dados]
@@ -148,31 +118,25 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
     };
   }
 
-  // ALTERAR NOME
+  /**
+  * FIM OPCOES
+  */
 
-  private initAlterarNomeForm(): void {
-    const dados: AlterarNome = this.recuperarDadoAlterarNome();
-    this.alterarNomeForm = this.fb.group({
-      nome: [dados.nome]
-    });
+  /**
+  * ALTERAR NOME
+  */
+  getAlterarNomeForm(): FormGroup {
+    return this._alterarNomeBloc.getAlterarNomeForm();
   }
-
-  private recuperarDadoAlterarNome(): AlterarNome {
-    const alterarNome: AlterarNome = {
-      nome: ''
-    };
-
-    if (this.dados.dados.alterarNome === undefined || this.dados.dados.alterarNome.nome === null) {
-      return alterarNome as AlterarNome;
-    } else if (this.dados.dados.opcao.id === 1) {
-      return this.dados.dados.alterarNome;
-    }
-  }
-
-  // FIM ALTERAR NOME
+  /**
+  * FIM ALTERAR NOME
+  */
 
   // ALTERAR CONTATO
 
+  /**
+  * ALTERAR CONTATO
+  */
   private initAlterarContatoForm(): void {
     const dados: AlterarContato = this.recuperarDadoAlterarContato();
     const emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
@@ -210,7 +174,10 @@ export class OpcoesComponent implements OnInit, AfterViewInit {
       return this.dados.dados.alterarContato;
     }
   }
+  /**
+  * FIM ALTERAR CONTATO
+  */
 
-  // FIM ALTERAR CONTATO
+
 
 }

@@ -7,7 +7,7 @@
           <div class="form-group">
             <div [ngSwitch]="opcaoSelecionada">
               <ng-template [ngSwitchCase]="ID_ALTERAR_NOME">
-                  <alterar-nome [alterarNomeForm]="alterarNomeForm" (formReady)="addFormControl('alterarNome', $event)"></alterar-nome>
+                  <alterar-nome [alterarNomeForm]="getAlterarNomeForm()" (formReady)="addFormControl('alterarNome', $event)"></alterar-nome>
               </ng-template>
               <ng-template [ngSwitchCase]="ID_ALTERAR_CONTATO">
                 <alterar-contato [alterarContatoForm]="alterarContatoForm" (formReady)="addFormControl('alterarContato', $event)"></alterar-contato>
