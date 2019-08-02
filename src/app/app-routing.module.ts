@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { OpcoesComponent } from './components/opcoes';
+import { OpcoesComponent } from './components/opcoes/opcoes.component';
+
 
 const routes: Routes = [
   { path: '', component: OpcoesComponent },

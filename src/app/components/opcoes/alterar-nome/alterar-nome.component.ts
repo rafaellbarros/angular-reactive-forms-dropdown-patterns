@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./alterar-nome.component.css']
 })
 export class AlterarNomeComponent implements OnInit {
+
 
   @Input()
   alterarNomeForm: FormGroup;

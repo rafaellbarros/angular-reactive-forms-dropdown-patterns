@@ -7,10 +7,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
-import { OpcoesComponent } from './components/opcoes';
+
 import { AlterarNomeComponent } from './components/opcoes/alterar-nome';
 import { AlterarContatoComponent } from './components/opcoes/alterar-contato';
 import { AppRoutingModule } from './app-routing.module';
+import { OpcoesComponent } from './components/opcoes/opcoes.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
